@@ -4,32 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Калькулятор возраста питомца</title>
+    <!-- Подключение шрифта Courier Prime -->
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        html {
-            min-height: 100%;
-        }
-
         body {
             font-family: 'Courier Prime', monospace;
-            width: 100%;
             max-width: 500px;
-            min-height: 100vh;
             margin: 40px auto;
             padding: 0 20px;
             text-align: center;
             background-image: url('фон.png');
             background-size: cover;
             background-position: center;
-            background-repeat: no-repeat;
+            background-attachment: fixed;
             color: #a4175e;
-            overflow-x: hidden;
         }
-
         h1 {
             font-size: 28px;
             margin-bottom: 10px;
@@ -39,7 +28,6 @@
             display: inline-block;
             color: #a4175e;
         }
-
         .subtitle {
             font-size: 20px;
             margin-bottom: 30px;
@@ -50,39 +38,33 @@
             display: inline-block;
             color: #a4175e;
         }
-
         .pet-options {
             display: flex;
             justify-content: center;
             gap: 40px;
             margin-bottom: 30px;
-            flex-wrap: wrap;
+            flex-wrap: wrap; /* разрешаем перенос на маленьких экранах */
         }
-
         .pet-card {
             background: none;
             border: none;
             padding: 0;
             cursor: pointer;
             user-select: none;
-            -webkit-tap-highlight-color: transparent;
-            transition: transform 0.2s ease;
+            transition: transform 0.3s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-
         .pet-card:hover {
             transform: scale(1.05);
         }
-
         .pet-card img {
             width: 200px;
             height: 200px;
             object-fit: contain;
             display: block;
         }
-
         .pet-card .label {
             font-size: 22px;
             font-weight: bold;
@@ -101,8 +83,8 @@
             display: inline-block;
             margin-top: 20px;
             max-width: 100%;
+            box-sizing: border-box;
         }
-
         .selected-pet-img {
             width: 220px;
             height: 220px;
@@ -110,14 +92,6 @@
             margin: 0 auto 20px;
             display: block;
         }
-
-        #selected-pet-name {
-            color: #a4175e;
-            font-size: 22px;
-            font-weight: bold;
-            margin-bottom: 16px;
-        }
-
         #age-input {
             padding: 14px;
             font-size: 20px;
@@ -125,15 +99,13 @@
             text-align: center;
             border: 2px solid #a4175e;
             border-radius: 10px;
-            margin: 0 10px 20px;
+            margin: 0 10px 20px 10px;
             color: #a4175e;
             font-family: 'Courier Prime', monospace;
         }
-
         #age-input::placeholder {
             color: rgba(164,23,94,0.6);
         }
-
         .btn {
             padding: 14px 28px;
             font-size: 20px;
@@ -145,13 +117,10 @@
             font-weight: bold;
             transition: background 0.2s;
             font-family: 'Courier Prime', monospace;
-            -webkit-tap-highlight-color: transparent;
         }
-
         .btn:hover {
             background: #8c0f47;
         }
-
         .result-text {
             font-size: 24px;
             font-weight: bold;
@@ -161,117 +130,56 @@
             border-radius: 12px;
             color: #a4175e;
         }
-
         .hidden {
             display: none !important;
         }
 
+        /* Адаптация под мобильные устройства */
         @media (max-width: 480px) {
             body {
-                max-width: none;
-                min-height: 100svh;
-                margin: 0;
-                padding: 16px 12px 24px;
-                background-attachment: scroll;
-                background-size: cover;
-                background-position: center top;
+                margin: 20px auto;
+                padding: 0 10px;
             }
-
             h1 {
-                font-size: clamp(21px, 5.6vw, 26px);
-                line-height: 1.15;
-                display: inline-block;
-                max-width: 325px;
-                background: rgba(255,255,255,0.82);
+                font-size: 22px;
                 padding: 10px 14px;
-                margin: 26px auto 14px;
-                border-radius: 12px;
             }
-
             .subtitle {
-                font-size: clamp(14px, 3.8vw, 18px);
-                display: inline-block;
-                background: rgba(255,255,255,0.72);
-                padding: 5px 16px;
-                margin: 0 0 18px;
-                border-radius: 20px;
-            }
-
-            .pet-options {
-                flex-direction: row;
-                justify-content: center;
-                align-items: flex-start;
-                gap: 18px;
+                font-size: 16px;
+                padding: 6px 18px;
                 margin-bottom: 20px;
-                flex-wrap: nowrap;
             }
-
-            .pet-card {
-                transition: none;
+            .pet-options {
+                gap: 20px;
             }
-
-            .pet-card:hover {
-                transform: none;
-            }
-
-            .pet-card:active {
-                transform: scale(0.98);
-            }
-
             .pet-card img {
-                width: min(34vw, 145px);
-                height: min(34vw, 145px);
+                width: 130px;
+                height: 130px;
             }
-
             .pet-card .label {
-                font-size: clamp(14px, 4vw, 18px);
-                margin-top: 4px;
+                font-size: 18px;
                 padding: 4px 12px;
             }
-
             .container {
-                display: block;
-                width: 100%;
-                max-width: 325px;
-                margin: 18px auto 0;
-                padding: 20px 14px;
+                padding: 20px 15px;
+                margin-top: 15px;
             }
-
             .selected-pet-img {
-                width: min(56vw, 210px);
-                height: min(56vw, 210px);
-                margin-bottom: 16px;
+                width: 160px;
+                height: 160px;
             }
-
-            #selected-pet-name {
-                font-size: 20px;
-            }
-
             #age-input {
-                width: 100%;
-                max-width: 250px;
-                font-size: 20px;
-                padding: 14px;
-                margin: 8px auto 16px;
-                display: block;
+                width: 100px;
+                padding: 12px;
+                font-size: 18px;
             }
-
             .btn {
-                width: 100%;
-                max-width: 250px;
-                padding: 14px 22px;
-                font-size: 20px;
-                margin: 8px auto;
-                display: block;
+                padding: 12px 20px;
+                font-size: 18px;
             }
-
-            .btn:hover {
-                background: #a4175e;
-            }
-
             .result-text {
-                font-size: clamp(20px, 6vw, 24px);
-                padding: 12px 14px;
+                font-size: 20px;
+                padding: 8px 15px;
             }
         }
     </style>
@@ -280,55 +188,49 @@
     <h1>Сколько лет вашему питомцу по человеческим меркам?</h1>
     <p class="subtitle" id="choose-text">Выберите питомца</p>
 
+    <!-- Экран выбора -->
     <div id="pet-selection" class="pet-options">
         <div class="pet-card" id="cat-option"
              onclick="selectPet('cat')"
-             onmouseenter="changePetImage('cat-img', 'кошка1.png')"
-             onmouseleave="changePetImage('cat-img', 'кошка.png')">
-            <img id="cat-img" src="кошка.png" alt="Кошка">
+             onmouseenter="document.getElementById('cat-img').src='кошка1.png'"
+             onmouseleave="document.getElementById('cat-img').src='кошка.png'">
+            <img id="cat-img" src="кошка.png">
             <span class="label">Кошка</span>
         </div>
         <div class="pet-card" id="dog-option"
              onclick="selectPet('dog')"
-             onmouseenter="changePetImage('dog-img', 'собака1.png')"
-             onmouseleave="changePetImage('dog-img', 'собака.png')">
-            <img id="dog-img" src="собака.png" alt="Собака">
+             onmouseenter="document.getElementById('dog-img').src='собака1.png'"
+             onmouseleave="document.getElementById('dog-img').src='собака.png'">
+            <img id="dog-img" src="собака.png">
             <span class="label">Собака</span>
         </div>
     </div>
 
+    <!-- Экран ввода возраста -->
     <div id="input-container" class="container hidden">
         <img id="selected-img-input" class="selected-pet-img" src="" alt="Питомец">
-        <div id="selected-pet-name"></div>
+        <div class="label" id="selected-pet-name" style="color:#a4175e;"></div>
         <input type="number" id="age-input" placeholder="Возраст" min="0" step="any">
+        <br>
         <button class="btn" onclick="calculateAge()">Посчитать</button>
     </div>
 
+    <!-- Экран результата -->
     <div id="result-container" class="container hidden">
-        <img id="selected-img-result" class="selected-pet-img" src="" alt="Результат">
+        <img id="selected-img-result" class="selected-pet-img">
         <div id="result-text" class="result-text"></div>
         <button class="btn" onclick="resetToSelection()">Заново</button>
     </div>
 
     <script>
         let chosenPet = null;
-        const isTouchDevice = window.matchMedia('(hover: none)').matches;
-
-        function changePetImage(id, src) {
-            if (!isTouchDevice) {
-                document.getElementById(id).src = src;
-            }
-        }
 
         function selectPet(pet) {
             chosenPet = pet;
-
             const imgSrc = pet === 'cat' ? 'кошка.png' : 'собака.png';
-            const petName = pet === 'cat' ? 'Кошка' : 'Собака';
-
             document.getElementById('selected-img-input').src = imgSrc;
-            document.getElementById('selected-img-result').src = imgSrc;
-            document.getElementById('selected-pet-name').textContent = petName;
+            document.getElementById('selected-img-result').src = imgSrc; // временно, пока не рассчитали
+            document.getElementById('selected-pet-name').textContent = pet === 'cat' ? 'Кошка' : 'Собака';
 
             document.getElementById('choose-text').classList.add('hidden');
             document.getElementById('pet-selection').classList.add('hidden');
@@ -338,30 +240,22 @@
             document.getElementById('age-input').value = '';
         }
 
+        // Функция, возвращающая нужную картинку человека по полу и возрасту
         function getHumanImage(pet, humanAge) {
-            const isFemale = pet === 'cat';
-
+            const isFemale = (pet === 'cat');
             if (humanAge < 7) {
                 return isFemale ? 'малышка.png' : 'малыш.png';
-            }
-
-            if (humanAge < 14) {
+            } else if (humanAge < 14) {
                 return isFemale ? 'девочка.png' : 'мальчик.png';
-            }
-
-            if (humanAge < 21) {
+            } else if (humanAge < 21) {
                 return isFemale ? 'дподросток.png' : 'подросток.png';
-            }
-
-            if (humanAge < 35) {
+            } else if (humanAge < 35) {
                 return isFemale ? 'взрослая.png' : 'взрослый.png';
-            }
-
-            if (humanAge < 55) {
+            } else if (humanAge < 55) {
                 return isFemale ? 'взрослая1.png' : 'взрослый1.png';
+            } else {
+                return isFemale ? 'бабушка.png' : 'дедушка.png';
             }
-
-            return isFemale ? 'бабушка.png' : 'дедушка.png';
         }
 
         function calculateAge() {
@@ -373,21 +267,17 @@
                 resultElement.textContent = 'Сначала выберите питомца.';
                 return;
             }
-
             if (ageText === '') {
                 resultElement.textContent = 'Введите возраст.';
                 return;
             }
-
             const age = parseFloat(ageText);
-
             if (isNaN(age) || age < 0) {
                 resultElement.textContent = 'Пожалуйста, введите корректный возраст (0 или больше).';
                 return;
             }
 
             let humanAge;
-
             if (age === 0) {
                 humanAge = 0;
             } else if (age <= 1) {
@@ -401,7 +291,11 @@
 
             humanAge = Math.round(humanAge);
 
-            document.getElementById('selected-img-result').src = getHumanImage(chosenPet, humanAge);
+            // Устанавливаем картинку человека в зависимости от возраста
+            const humanImg = getHumanImage(chosenPet, humanAge);
+            document.getElementById('selected-img-result').src = humanImg;
+
+            // Выводим текст с переносом строки
             resultElement.innerHTML = `Человеческий возраст:<br>${humanAge} лет.`;
 
             document.getElementById('input-container').classList.add('hidden');
@@ -413,7 +307,6 @@
             document.getElementById('input-container').classList.add('hidden');
             document.getElementById('pet-selection').classList.remove('hidden');
             document.getElementById('choose-text').classList.remove('hidden');
-
             chosenPet = null;
             document.getElementById('age-input').value = '';
         }
