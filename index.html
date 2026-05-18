@@ -43,7 +43,7 @@
             justify-content: center;
             gap: 40px;
             margin-bottom: 30px;
-            flex-wrap: wrap; /* разрешаем перенос на маленьких экранах */
+            flex-wrap: wrap;
         }
         .pet-card {
             background: none;
@@ -106,6 +106,231 @@
         #age-input::placeholder {
             color: rgba(164,23,94,0.6);
         }
+        .btn {
+            padding: 14px 28px;
+            font-size: 20px;
+            background: #a4175e;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+            font-family: 'Courier Prime', monospace;
+        }
+        .btn:hover {
+            background: #8c0f47;
+        }
+        .result-text {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px 0;
+            background: rgba(255,255,255,0.8);
+            padding: 10px 20px;
+            border-radius: 12px;
+            color: #a4175e;
+        }
+        .hidden {
+            display: none !important;
+        }
+
+        /* Мобильная версия: элементы крупнее и равномерно по экрану */
+        @media (max-width: 480px) {
+            body {
+                margin: 10px;
+                padding: 0;
+                max-width: 100%;
+            }
+            h1 {
+                font-size: 30px;
+                display: block;
+                background: none;
+                padding: 10px 0;
+                margin-bottom: 15px;
+                border-radius: 0;
+            }
+            .subtitle {
+                font-size: 24px;
+                display: block;
+                background: none;
+                padding: 5px 0;
+                margin-bottom: 30px;
+                border-radius: 0;
+            }
+            .pet-options {
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+                margin-bottom: 30px;
+            }
+            .pet-card img {
+                width: 250px;
+                height: 250px;
+            }
+            .pet-card .label {
+                font-size: 28px;
+                padding: 8px 24px;
+            }
+            .container {
+                display: block;
+                width: 90%;
+                margin: 20px auto;
+                padding: 25px 20px;
+            }
+            .selected-pet-img {
+                width: 250px;
+                height: 250px;
+                margin-bottom: 20px;
+            }
+            #age-input {
+                width: 80%;
+                font-size: 24px;
+                padding: 18px;
+                margin: 10px 0 20px 0;
+            }
+            .btn {
+                padding: 18px 40px;
+                font-size: 24px;
+                width: 80%;
+                margin: 10px auto;
+                display: block;
+            }
+            .result-text {
+                font-size: 26px;
+                padding: 15px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Сколько лет вашему питомцу по человеческим меркам?</h1>
+    <p class="subtitle" id="choose-text">Выберите питомца</p>
+
+    <!-- Экран выбора -->
+    <div id="pet-selection" class="pet-options">
+        <div class="pet-card" id="cat-option"
+             onclick="selectPet('cat')"
+             onmouseenter="document.getElementById('cat-img').src='кошка1.png'"
+             onmouseleave="document.getElementById('cat-img').src='кошка.png'">
+            <img id="cat-img" src="кошка.png">
+            <span class="label">Кошка</span>
+        </div>
+        <div class="pet-card" id="dog-option"
+             onclick="selectPet('dog')"
+             onmouseenter="document.getElementById('dog-img').src='собака1.png'"
+             onmouseleave="document.getElementById('dog-img').src='собака.png'">
+            <img id="dog-img" src="собака.png">
+            <span class="label">Собака</span>
+        </div>
+    </div>
+
+    <!-- Экран ввода возраста -->
+    <div id="input-container" class="container hidden">
+        <img id="selected-img-input" class="selected-pet-img" src="" alt="Питомец">
+        <div class="label" id="selected-pet-name" style="color:#a4175e;"></div>
+        <input type="number" id="age-input" placeholder="Возраст" min="0" step="any">
+        <br>
+        <button class="btn" onclick="calculateAge()">Посчитать</button>
+    </div>
+
+    <!-- Экран результата -->
+    <div id="result-container" class="container hidden">
+        <img id="selected-img-result" class="selected-pet-img">
+        <div id="result-text" class="result-text"></div>
+        <button class="btn" onclick="resetToSelection()">Заново</button>
+    </div>
+
+    <script>
+        let chosenPet = null;
+
+        function selectPet(pet) {
+            chosenPet = pet;
+            const imgSrc = pet === 'cat' ? 'кошка.png' : 'собака.png';
+            document.getElementById('selected-img-input').src = imgSrc;
+            document.getElementById('selected-img-result').src = imgSrc; // временно, пока не рассчитали
+            document.getElementById('selected-pet-name').textContent = pet === 'cat' ? 'Кошка' : 'Собака';
+
+            document.getElementById('choose-text').classList.add('hidden');
+            document.getElementById('pet-selection').classList.add('hidden');
+            document.getElementById('input-container').classList.remove('hidden');
+            document.getElementById('result-container').classList.add('hidden');
+
+            document.getElementById('age-input').value = '';
+        }
+
+        // Функция, возвращающая нужную картинку человека по полу и возрасту
+        function getHumanImage(pet, humanAge) {
+            const isFemale = (pet === 'cat');
+            if (humanAge < 7) {
+                return isFemale ? 'малышка.png' : 'малыш.png';
+            } else if (humanAge < 14) {
+                return isFemale ? 'девочка.png' : 'мальчик.png';
+            } else if (humanAge < 21) {
+                return isFemale ? 'дподросток.png' : 'подросток.png';
+            } else if (humanAge < 35) {
+                return isFemale ? 'взрослая.png' : 'взрослый.png';
+            } else if (humanAge < 55) {
+                return isFemale ? 'взрослая1.png' : 'взрослый1.png';
+            } else {
+                return isFemale ? 'бабушка.png' : 'дедушка.png';
+            }
+        }
+
+        function calculateAge() {
+            const resultElement = document.getElementById('result-text');
+            const ageInput = document.getElementById('age-input');
+            const ageText = ageInput.value.trim().replace(',', '.');
+
+            if (!chosenPet) {
+                resultElement.textContent = 'Сначала выберите питомца.';
+                return;
+            }
+            if (ageText === '') {
+                resultElement.textContent = 'Введите возраст.';
+                return;
+            }
+            const age = parseFloat(ageText);
+            if (isNaN(age) || age < 0) {
+                resultElement.textContent = 'Пожалуйста, введите корректный возраст (0 или больше).';
+                return;
+            }
+
+            let humanAge;
+            if (age === 0) {
+                humanAge = 0;
+            } else if (age <= 1) {
+                humanAge = age * 15;
+            } else if (age <= 2) {
+                humanAge = 15 + (age - 1) * 9;
+            } else {
+                const multiplier = chosenPet === 'cat' ? 4 : 5;
+                humanAge = 24 + (age - 2) * multiplier;
+            }
+
+            humanAge = Math.round(humanAge);
+
+            // Устанавливаем картинку человека в зависимости от возраста
+            const humanImg = getHumanImage(chosenPet, humanAge);
+            document.getElementById('selected-img-result').src = humanImg;
+
+            // Выводим текст с переносом строки
+            resultElement.innerHTML = `Человеческий возраст:<br>${humanAge} лет.`;
+
+            document.getElementById('input-container').classList.add('hidden');
+            document.getElementById('result-container').classList.remove('hidden');
+        }
+
+        function resetToSelection() {
+            document.getElementById('result-container').classList.add('hidden');
+            document.getElementById('input-container').classList.add('hidden');
+            document.getElementById('pet-selection').classList.remove('hidden');
+            document.getElementById('choose-text').classList.remove('hidden');
+            chosenPet = null;
+            document.getElementById('age-input').value = '';
+        }
+    </script>
+</body>
+</html>        }
         .btn {
             padding: 14px 28px;
             font-size: 20px;
